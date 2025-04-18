@@ -90,5 +90,5 @@ def main_f():
     if st.session_state["generated"]:
         display_conversation(st.session_state)
 
-if _name_ == "_main_":
+if __name__ == "__main__":
     main_f()
