@@ -36,7 +36,7 @@ def embeddings_store():
 @st.cache_resource
 def conversational_qa():
     retriever = embeddings_store()
-    memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True, output_key="answer")
+    memory = ConversationBufferMemory(memory_key="chat_history", input_key = "question", return_messages=True, output_key="answer")
     return ConversationalRetrievalChain.from_llm(
         llm=ChatCohere(),
         memory=memory,
@@ -80,7 +80,7 @@ def main_f():
         if st.checkbox("Use Document-based QA (Simple RAG)", key="rag_toggle"):
             output = rag_chain.invoke({"query": user_input})
         else:
-            output = convo_chain({"question": user_input})["answer"]
+            output = convo_chain.invoke({"question": user_input})["answer"]
 
         st.session_state.past.append(user_input)
         st.session_state.generated.append(output)
