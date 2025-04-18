@@ -9,7 +9,7 @@ from langchain_cohere import CohereEmbeddings, ChatCohere
 from langchain_community.vectorstores import FAISS
 from langchain.chains import RetrievalQA
 
-_import_('pysqlite3')
+__import__('pysqlite3')
 import sys
 sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 
