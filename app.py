@@ -19,7 +19,7 @@ os.environ["COHERE_API_KEY"] = 'Ox97SolGnL68xrDjbNAMiVaWCqZ5Fny3d7hYAub6'
 # Document Preprocessing
 @st.cache_data
 def doc_preprocessing():
-    loader = PyPDFLoader("iesc111.pdf")
+    loader = PyPDFLoader("Zzapkart.pdf")
     docs = loader.load()
     text_splitter = CharacterTextSplitter(chunk_size=1000, chunk_overlap=0)
     return text_splitter.split_documents(docs)
