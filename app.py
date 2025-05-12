@@ -61,7 +61,7 @@ def display_conversation(history):
 
 # Main function
 def main_f():
-    st.title("LLM Powered Chatbot (Text Input Only)")
+    st.title("All about Zzapkart (Text Input Only)")
 
     # Initialize chains
     rag_chain = rag_qa_chain()
