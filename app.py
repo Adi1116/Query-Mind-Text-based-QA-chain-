@@ -3,6 +3,32 @@ import os
 import streamlit as st
 from streamlit_chat import message
 
+st.set_page_config(
+    page_title="Zzapkart Chatbot",
+    page_icon="🛒",
+    layout="centered",
+    initial_sidebar_state="collapsed"
+)
+
+custom_css = """
+<style>
+    body {
+        background-color: #121212;
+        color: white;
+    }
+    .stTextInput > div > div > input {
+        background-color: #1f1f1f;
+        color: white;
+    }
+    .stButton>button {
+        background-color: #ff6f00;
+        color: white;
+    }
+</style>
+"""
+st.markdown(custom_css, unsafe_allow_html=True)
+
+
 #LangChain and Utilities
 from langchain.memory import ConversationBufferMemory
 from langchain.chains import ConversationalRetrievalChain
@@ -59,12 +85,26 @@ def rag_qa_chain():
 
 #Chat Display
 def display_conversation(history):
-    for i in range(len(history["generated"])):
+    for i in reversed(range(len(history["generated"]))):
         message(history["past"][i], is_user=True, key=f"{i}_user")
         message(history["generated"][i], key=str(i))
 
+        # Feedback buttons
+        feedback_key = f"feedback_{i}"
+        if feedback_key not in st.session_state:
+            col1, col2 = st.columns([1, 1])
+            with col1:
+                if st.button("👍", key=f"{feedback_key}_up"):
+                    st.session_state[feedback_key] = "positive"
+                    st.success("Thanks for your feedback! 😊")
+            with col2:
+                if st.button("👎", key=f"{feedback_key}_down"):
+                    st.session_state[feedback_key] = "negative"
+                    st.warning("We’ll use your feedback to improve!")
+                    
+
 # ========================
-# Zzapkart Custom Logic
+# ✅ Zzapkart Custom Logic
 # ========================
 
 # Instructions for fallback LLM
@@ -159,6 +199,7 @@ def rule_based_response(user_msg):
 #Main App Logic
 def main_f():
     st.title("All about Zzapkart (Text Input Only)")
+    st.markdown("### 🤖 Meet **Zzappy**, your Zzapkart assistant!")
 
     #Chain Initialization
     rag_chain = rag_qa_chain()
@@ -166,9 +207,10 @@ def main_f():
 
     #Session Initialization
     if "generated" not in st.session_state:
-        st.session_state["generated"] = ["I am ready to help you"]
+      st.session_state["generated"] = ["I’m Zzappy, your virtual assistant 🤖. How can I help you today?"]
     if "past" not in st.session_state:
-        st.session_state["past"] = ["Hey there!"]
+      st.session_state["past"] = ["Welcome to Zzapkart Support 👋"]
+
 
     #Take input
     user_query = st.text_input("Ask your question:")
