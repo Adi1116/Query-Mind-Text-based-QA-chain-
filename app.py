@@ -198,7 +198,7 @@ def rule_based_response(user_msg):
 
 #Main App Logic
 def main_f():
-    st.title("All about Zzapkart (Text Input Only)")
+    st.title("🛒 Zzapkart Support Assistant")
     st.markdown("### 🤖 Meet **Zzappy**, your Zzapkart assistant!")
 
     #Chain Initialization
